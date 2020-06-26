@@ -55,10 +55,66 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(type(dic_empty) is dict)"""
 
     def test_save(self):
+        """Test save method"""
         base = BaseModel()
         date_now = datetime.now()
         self.assertEqual(date_now, base.save())
 
+    def test_save_no_args(self):
+        """Test save method without arguments"""
+        with self.assertRaises(TypeError) as error:
+            BaseModel.save()
+        fail = "save() missing 1 required positional argument: 'self'"
+        self.assertEqual(str(error.exception), fail)
+
+    def test_save_many_args(self):
+        """Test save method with many arguments"""
+        with self.assertRaises(TypeError) as error:
+            BaseModel.save(self, "holberton")
+        fail = "save() takes 1 positional argument but 2 were given"
+        self.assertEqual(str(error.exception), fail)
+
+    def test_dict_no_args(self):
+        """Test to_dict method without arguments"""
+        with self.assertRaises(TypeError) as error:
+            BaseModel.to_dict()
+        fail = "to_dict() missing 1 required positional argument: 'self'"
+        self.assertEqual(str(error.exception), fail)
+
+    def test_dict_many_args(self):
+        """Test to_dict method with many arguments"""
+        with self.assertRaises(TypeError) as error:
+            BaseModel.to_dict(self, "holberton")
+        fail = "to_dict() takes 1 positional argument but 2 were given"
+        self.assertEqual(str(error.exception), fail)
+
+    def test_intantiation_dict_object(self):
+        """Test instantiation"""
+        base = BaseModel()
+        base.number = 21
+        base.dir = "74A"
+        base_dict = base.to_dict()
+        new_base = BaseModel(**base_dict)
+        self.assertEqual(new_base.to_dict(), base.to_dict())
+
+    def test_init_no_args(self):
+        """Test instantiation without arguments"""
+        with self.assertRaises(TypeError) as error:
+            BaseModel.__init__()
+        fail = "__init__() missing 1 required positional argument: 'self'"
+        self.assertEqual(str(error.exception), fail)
+
+    def test_init_many_args(self):
+        """Test instantiation with many arguments"""
+        base = BaseModel(5, "hol", 12, "ber", 78, "ton")
+        args = [a for a in range(245)]
+        base = BaseModel(*args)
+
+    def test_srt(self):
+        """Test str method"""
+        base = BaseModel()
+        string = "[BaseModel] ({}) {}".format(base.id, base.__dict__)
+        self.assertEqual(string, str(base))
 
 if __name__ == '__main__':
     unittest.main()
