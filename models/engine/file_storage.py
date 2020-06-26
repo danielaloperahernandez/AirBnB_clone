@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """Module for FileStorage class"""
-import models
+from models.base_model import BaseModel
 import json
 import os
+
 
 class FileStorage:
     """Class for serialization and deserialization to json format"""
@@ -11,7 +12,7 @@ class FileStorage:
 
     def all(self):
         """Returns __objects dictionary"""
-        return FileStorage.__objects
+        return {key: value for key, value in self.__objects.items()}
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
@@ -21,16 +22,16 @@ class FileStorage:
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
         with open(FileStorage.__file_path, "w", encoding="utf-8") as file:
-            dic_obj = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
+            dic_obj = {k: v.to_dict() for k, v in self.__objects.items()}
             json.dump(dic_obj, file)
 
     def reload(self):
+        """deserializes the JSON file to __objects (only if the JSON file
+        (__file_path) exists otherwise, do nothing"""
         if not os.path.isfile(FileStorage.__file_path):
             return
         with open(FileStorage.__file_path, "r", encoding="utf-8") as file:
             obj_dict = json.load(file)
-            obj_dict = {key: eval(value["__class__"])(**value) for key, value in obj_dict.items()}
+            obj_dict = {key: eval(value["__class__"])(**value) for key,
+                        value in obj_dict.items()}
             self.__objects = obj_dict
-            """for k, value in (json.load(file)).items():
-                value_get = eval(value["__class__"])(**value)
-            self.__objects[k] = value"""
