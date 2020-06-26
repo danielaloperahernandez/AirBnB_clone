@@ -35,3 +35,7 @@ class FileStorage:
             obj_dict = {key: eval(value["__class__"])(**value) for key,
                         value in obj_dict.items()}
             self.__objects = obj_dict
+
+    def find_classes(self):
+        classes = {"BaseModel" : BaseModel}
+        return classes
