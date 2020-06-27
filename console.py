@@ -1,6 +1,13 @@
 #!/usr/bin/python3
 import cmd
+import re
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 import models
 
 class HBNBCommand(cmd.Cmd):
@@ -98,6 +105,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         else:
             line = arg.split(' ')
+            for iter in range(len(line)):
+                line[iter] = line[iter].strip("\"'")
             if line[0] in models.classes:
                 try:
                     key = "{}.{}".format(line[0], line[1])
@@ -123,6 +132,8 @@ class HBNBCommand(cmd.Cmd):
                                 obj_upt.save()
             else:
                 print("** class doesn't exist **")
+                
+    
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
