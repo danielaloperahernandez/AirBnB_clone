@@ -1,6 +1,12 @@
 #!/usr/bin/python3
 """Module for FileStorage class"""
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 import json
 import os
 
@@ -31,7 +37,9 @@ class FileStorage:
     def reload(self):
         """deserializes the JSON file to __objects (only if the JSON file
         (__file_path) exists otherwise, do nothing"""
-        my_dict = {"BaseModel": BaseModel}
+        my_dict = {"BaseModel": BaseModel, "User": User, "State": State,
+                   "City": City, "Amenity": Amenity, "Place": Place,
+                   "Review": Review}
         json_file = ""
         try:
             with open(FileStorage.__file_path, "r") as file:
