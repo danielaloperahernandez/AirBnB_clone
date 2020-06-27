@@ -17,6 +17,8 @@ class BaseModel:
                 elif key == "updated_at":
                     self.__dict__["updated_at"] = datetime.strptime(
                         kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f")
+                elif "id" not in kwargs:
+                    self.id = str(str(uuid.uuid4()))
                 else:
                     self.__dict__[key] = kwargs[key]
         else:
