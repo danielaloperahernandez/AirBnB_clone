@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import cmd
 import re
+from models import storage
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -83,7 +84,11 @@ class HBNBCommand(cmd.Cmd):
                     print("** instance id missing **")
                 else:
                     try:
-                        del models.storage.all()[key]
+                        objects = storage.all()
+                        key = line[0] + '.' + line[1]
+                        if key in objects:
+                            models.storage.delete(objects[key])
+                            models.storage.save()
                     except KeyError:
                         print("** no instance found **")
                     else:

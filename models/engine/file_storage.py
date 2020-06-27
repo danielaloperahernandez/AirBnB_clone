@@ -49,20 +49,13 @@ class FileStorage:
                         json_file[key]['__class__']](**json_file[key])
         except:
             pass
-
-    """def save(self):
-        serializes __objects to the JSON file (path: __file_path)
-        with open(FileStorage.__file_path, "w", encoding="utf-8") as file:
-            dic_obj = {k: v.to_dict() for k, v in self.__objects.items()}
-            json.dump(dic_obj, file)
-
-    def reload(self):
-        deserializes the JSON file to __objects (only if the JSON file
-        (__file_path) exists otherwise, do nothing
-        if not os.path.isfile(FileStorage.__file_path):
-            return
-        with open(FileStorage.__file_path, "r", encoding="utf-8") as file:
-            obj_dict = json.load(file)
-            obj_dict = {key: eval(value["__class__"])(**value) for key,
-                        value in obj_dict.items()}
-            self.__objects = obj_dict"""
+        
+    def delete(self, obj=None):
+        """delete obj (called in to_destroy)"""
+        if obj:
+            try:
+                key = "{}.{}".format(type(obj).__name__, obj.id)
+                del self.__objects[key]
+                self.save()
+            except:
+                pass
