@@ -49,7 +49,7 @@ class FileStorage:
                         json_file[key]['__class__']](**json_file[key])
         except:
             pass
-        
+
     def delete(self, obj=None):
         """delete obj (called in to_destroy)"""
         if obj:
