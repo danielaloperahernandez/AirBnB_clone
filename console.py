@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+"""This is the console for AirBnB"""
+
 import cmd
 import re
 from models import storage
@@ -27,6 +29,7 @@ def pattern(arg):
 
 
 class HBNBCommand(cmd.Cmd):
+    """AirBnB console main class"""
     prompt = "(hbnb) "
 
     def do_EOF(self, arg):
@@ -137,7 +140,7 @@ class HBNBCommand(cmd.Cmd):
             for iter in range(len(line)):
                 line[iter] = line[iter].strip("\"'\"{\"}:\"'")
             print(line)
-            j = 2;
+            j = 2
             while j + 1 < len(line):
                 if line[0] in models.classes:
                     try:
@@ -245,7 +248,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_count(self, arg):
         """
-        Retrieve the number of instances of a class: <class name>.count().
+        Retrieve the number of instances of a class: <class name>.count()
         """
         if len(arg) == 0:
             print(len([str(value) for value in models.storage.all().values()]))
