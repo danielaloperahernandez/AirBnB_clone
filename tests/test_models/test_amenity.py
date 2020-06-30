@@ -12,6 +12,7 @@ Amenity = amenity.Amenity
 
 
 class TestAmenity(unittest.TestCase):
+    """Test cases for Amenity class"""
 
     def setUp(self):
         """Set up test methods"""
@@ -47,6 +48,7 @@ class TestAmenity(unittest.TestCase):
                         "amenity.py without docstring")
 
     def test_class_Amenity(self):
+        """class test"""
         obj_amenity = Amenity()
         self.assertIsInstance(obj_amenity, Amenity)
 
