@@ -136,7 +136,6 @@ class HBNBCommand(cmd.Cmd):
             line = arg.split(' ')
             for iter in range(len(line)):
                 line[iter] = line[iter].strip("\"'\"{\"}:\"'")
-            print(line)
             j = 2
             while j + 1 < len(line):
                 if line[0] in models.classes:
