@@ -136,34 +136,31 @@ class HBNBCommand(cmd.Cmd):
             line = arg.split(' ')
             for iter in range(len(line)):
                 line[iter] = line[iter].strip("\"'\"{\"}:\"'")
-            j = 2
-            while j + 1 < len(line):
-                if line[0] in models.classes:
+            if line[0] in models.classes:
+                try:
+                    key = "{}.{}".format(line[0], line[1])
+                except IndexError:
+                    print("** instance id missinlsg **")
+                else:
                     try:
-                        key = "{}.{}".format(line[0], line[1])
-                    except IndexError:
-                        print("** instance id missing **")
+                        obj_upt = models.storage.all()[key]
+                    except KeyError:
+                        print("** no instance found **")
                     else:
                         try:
-                            obj_upt = models.storage.all()[key]
-                        except KeyError:
-                            print("** no instance found **")
+                            atrribute = line[2]
+                        except IndexError:
+                            print("** attribute name missing **")
                         else:
                             try:
-                                atrribute = line[j]
+                                value = line[3]
                             except IndexError:
-                                print("** attribute name missing **")
+                                print("** value missing **")
                             else:
-                                try:
-                                    value = line[j+1]
-                                except IndexError:
-                                    print("** value missing **")
-                                else:
-                                    setattr(obj_upt, atrribute, value)
-                                    obj_upt.save()
-                else:
-                    print("** class doesn't exist **")
-                j = j+2
+                                setattr(obj_upt, atrribute, value)
+                                obj_upt.save()
+            else:
+                print("** class doesn't exist **")
 
     def do_BaseModel(self, arg):
         """
