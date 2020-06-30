@@ -103,6 +103,7 @@ class TestCity(unittest.TestCase):
         """Test save method"""
         obj_city = City()
         before = obj_city.updated_at
+        time.sleep(2)
         obj_city.save()
         self.assertLess(before, obj_city.updated_at)
         with open("file.json", "r") as file:

@@ -19,13 +19,9 @@ class Test_HBNBCommand(unittest.TestCase):
         """setup for the test"""
         cls.consol = HBNBCommand()
 
-    @classmethod
-    def teardown(cls):
-        """at the end of the test this will tear it down"""
-        del cls.consol
-
     def tearDown(self):
         """Remove temporary file (file.json) created as a result"""
+        FileStorage._FileStorage__objects = {}
         try:
             os.remove("file.json")
         except Exception:
@@ -254,6 +250,7 @@ class Test_HBNBCommand(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all asdfsdfsd")
             self.assertEqual("** class doesn't exist **\n", f.getvalue())
+        FileStorage._FileStorage__objects = {}
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all User")
             self.assertEqual("[]\n", f.getvalue())

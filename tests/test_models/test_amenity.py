@@ -101,6 +101,7 @@ class TestAmenity(unittest.TestCase):
         """Test save method"""
         obj_amenity = Amenity()
         before = obj_amenity.updated_at
+        time.sleep(2)
         obj_amenity.save()
         self.assertLess(before, obj_amenity.updated_at)
         with open("file.json", "r") as file:
