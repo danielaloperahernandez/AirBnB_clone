@@ -12,6 +12,7 @@ State = state.State
 
 
 class TestState(unittest.TestCase):
+    """tests for the Class State"""
 
     def setUp(self):
         """Set up test methods"""
@@ -48,6 +49,7 @@ class TestState(unittest.TestCase):
                         "State class without docstring")
 
     def test_class_State(self):
+        """test for the class"""
         obj_state = State()
         self.assertIsInstance(obj_state, State)
 

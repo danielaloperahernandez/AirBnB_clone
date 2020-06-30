@@ -14,6 +14,7 @@ Place = place.Place
 
 
 class TestPlace(unittest.TestCase):
+    """tests for the Class Place"""
 
     def setUp(self):
         """Set up test methods"""
@@ -49,6 +50,7 @@ class TestPlace(unittest.TestCase):
                         "Place class without docstring")
 
     def test_class_Place(self):
+        """test for the class"""
         obj_place = Place()
         self.assertIsInstance(obj_place, Place)
 

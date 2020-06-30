@@ -12,6 +12,7 @@ City = city.City
 
 
 class TestCity(unittest.TestCase):
+    """tests for the Class City"""
 
     def setUp(self):
         """Set up test methods"""
@@ -48,6 +49,7 @@ class TestCity(unittest.TestCase):
                         "City class without docstring")
 
     def test_class_City(self):
+        """test of the class"""
         obj_city = City()
         self.assertIsInstance(obj_city, City)
 

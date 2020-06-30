@@ -12,6 +12,7 @@ User = user.User
 
 
 class TestUser(unittest.TestCase):
+    """tests for the Class User"""
 
     def setUp(self):
         """Set up test methods"""
@@ -48,6 +49,7 @@ class TestUser(unittest.TestCase):
                         "User class without docstring")
 
     def test_class_User(self):
+        """test for the class"""
         obj_user = User()
         self.assertIsInstance(obj_user, User)
 

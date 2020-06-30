@@ -12,6 +12,7 @@ Review = review.Review
 
 
 class TestReview(unittest.TestCase):
+    """tests for the Class Review"""
 
     def setUp(self):
         """Set up test methods"""
@@ -48,6 +49,7 @@ class TestReview(unittest.TestCase):
                         "Review class without docstring")
 
     def test_class_Review(self):
+        """test for the class"""
         obj_review = Review()
         self.assertIsInstance(obj_review, Review)
 
