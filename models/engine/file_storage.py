@@ -26,28 +26,25 @@ class FileStorage:
         FileStorage.__objects[key] = obj
 
     def save(self):
-        """ Save function """
-        new_dict = {}
-        for key, value in FileStorage.__objects.items():
-            new_dict.update({key: value.to_dict()})
-        json_file = json.dumps(new_dict)
-        with open(FileStorage.__file_path, "w") as file:
-            file.write(json_file)
+        """serializes __objects to the JSON file (path: __file_path)
+        """
+        my_dict = {}
+        for key in self.__objects:
+            my_dict.update({key: self.__objects[key].to_dict()})
+        with open(self.__file_path, "w") as f:
+            f.write(json.dumps(my_dict))
 
     def reload(self):
-        """deserializes the JSON file to __objects (only if the JSON file
-        (__file_path) exists otherwise, do nothing"""
-        my_dict = {"BaseModel": BaseModel, "User": User, "State": State,
-                   "City": City, "Amenity": Amenity, "Place": Place,
-                   "Review": Review}
-        json_file = ""
+        """deserializes the JSON file to __objects
+        """
+        dict_ = {}
         try:
-            with open(FileStorage.__file_path, "r") as file:
-                json_file = json.loads(file.read())
-                for key in json_file:
-                    self.__objects[key] = my_dict[
-                        json_file[key]['__class__']](**json_file[key])
-        except:
+            with open(self.__file_path, "r") as f:
+                dict_ = json.loads(f.read())
+                for key, value in dict_.items():
+                    class_name = key.split(".")
+                    self.__objects[key] = eval(class_name[0])(**value)
+        except FileNotFoundError:
             pass
 
     def delete(self, obj=None):
