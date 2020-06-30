@@ -19,6 +19,8 @@ class BaseModel:
                     self.__dict__[key] = datetime.strptime(val, format_date)
                 else:
                     self.__dict__[key] = val
+        else:
+            models.storage.new(self)
 
     def __str__(self):
         """string representation"""
