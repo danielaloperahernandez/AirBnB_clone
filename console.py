@@ -140,7 +140,7 @@ class HBNBCommand(cmd.Cmd):
                 try:
                     key = "{}.{}".format(line[0], line[1])
                 except IndexError:
-                    print("** instance id missinlsg **")
+                    print("** instance id missing **")
                 else:
                     try:
                         obj_upt = models.storage.all()[key]
