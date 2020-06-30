@@ -18,7 +18,7 @@ class FileStorage:
 
     def all(self):
         """Returns __objects dictionary"""
-        return {key: value for key, value in self.__objects.items()}
+        return FileStorage.__objects
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
