@@ -90,7 +90,7 @@ $
  | models/user.py | class User, inherits from BaseModel |
  | models/engine/file_storage.py | class FileStorage, serializes instances to a JSON file and deserializes JSON file to instances |
  | models/engine/file_storage.py | class FileStorage, serializes instances to a JSON file and deserializes JSON file to instances |
- | tests/ | forder where are all the tests of the program |
+ | tests/ | folder where are all the tests of the program |
 
 ## Resources:books:
 Read or watch:
@@ -148,7 +148,7 @@ e.g., For models/user.py, unit tests must be in: tests/test_models/test_user.py
 ## Tasks
 ### 0. README, AUTHORS
 - Write a README.md
-- You should have an (AUTHORS)[./AUTHORS] file at the root of your repository, listing all individuals having contributed content to the repository.
+- You should have an AUTHORS file at the root of your repository, listing all individuals having contributed content to the repository.
 
 ### 1. Be PEP8 compliant!
 - Write beautiful code that passes the PEP8 checks.
