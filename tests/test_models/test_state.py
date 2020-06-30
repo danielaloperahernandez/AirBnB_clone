@@ -102,6 +102,7 @@ class TestState(unittest.TestCase):
         """Test save method"""
         obj_state = State()
         before = obj_state.updated_at
+        time.sleep(2)
         obj_state.save()
         self.assertLess(before, obj_state.updated_at)
         with open("file.json", "r") as file:

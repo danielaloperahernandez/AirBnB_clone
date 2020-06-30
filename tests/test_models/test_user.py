@@ -106,6 +106,7 @@ class TestUser(unittest.TestCase):
         obj_user = User()
         before = obj_user.updated_at
         obj_user.save()
+        time.sleep(2)
         self.assertLess(before, obj_user.updated_at)
         with open("file.json", "r") as file:
             self.assertIn("User." + obj_user.id, file.read())

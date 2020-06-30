@@ -104,6 +104,7 @@ class TestReview(unittest.TestCase):
         """Test save method"""
         obj_review = Review()
         before = obj_review.updated_at
+        time.sleep(2)
         obj_review.save()
         self.assertLess(before, obj_review.updated_at)
         with open("file.json", "r") as file:
