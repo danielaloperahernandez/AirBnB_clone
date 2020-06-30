@@ -102,10 +102,7 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     try:
                         objects = storage.all()
-                        key = line[0] + '.' + line[1]
-                        if key in objects:
-                            models.storage.delete(objects[key])
-                            models.storage.save()
+                        models.storage.delete(objects[key])
                     except KeyError:
                         print("** no instance found **")
                     else:
