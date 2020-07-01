@@ -1,76 +1,52 @@
 #!/usr/bin/python3
-"""Test cases for FileStorage class"""
+""" tests FileStorage class  """
 import unittest
 import pep8
-import json
-import os
 import models
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 from models.user import User
 from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
-from models.engine.file_storage import FileStorage
 
 
 class TestFileStorage(unittest.TestCase):
-    """Test cases for the FileStorage class"""
+    """ tests FileStorage  """
 
     def setUp(self):
-        """ Set a variable """
-        self.my_model = BaseModel()
-        self.file_sto = FileStorage()
-
-    def tearDown(self):
-        """Tears down test methods"""
-        pass
-
-    def test_FileStorage_pep8(self):
-        """pep8 test"""
-        pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['./models/engine/file_storage.py'])
-        self.assertEqual(result.total_errors, 0)
+        """setting up initial conditions
+        """
+        self.base1 = BaseModel()
+        self.storage_test = FileStorage()
+        self.u1 = User()
+        self.s1 = State()
 
     def test_instantiation(self):
-        """Test instantiation of storage class"""
+        """ tests correct instantiation of FileStorage class  """
         self.assertEqual(type(models.storage).__name__, "FileStorage")
 
-    def test_init_no_args(self):
-        """Test __init__ without arguments"""
+    def test_noarguments(self):
+        """ tests initialization without arguments  """
         with self.assertRaises(TypeError) as error:
             FileStorage.__init__()
-        fail = "descriptor '__init__' of 'object' object needs an argument"
-        self.assertEqual(str(error.exception), fail)
+            fail = "descriptor '__init__' of 'object' object needs an argument"
+            self.assertEqual(str(error.exception), fail)
 
-    def test_init_many_args(self):
-        """Test __init__ with many arguments"""
+    def test_arguments(self):
+        """ tests __init__ with many arguments"""
         with self.assertRaises(TypeError) as error:
             base = FileStorage(67, 7, 12, 9, 4, 5)
         fail = "object() takes no parameters"
         self.assertEqual(str(error.exception), fail)
 
     def test_attributes(self):
-        """Test class attributes"""
+        """ tests class attributes"""
         self.assertTrue(hasattr(FileStorage, "_FileStorage__file_path"))
         self.assertTrue(hasattr(FileStorage, "_FileStorage__objects"))
         self.assertIsInstance(models.storage._FileStorage__objects, dict)
         self.assertIsInstance(models.storage._FileStorage__file_path, str)
 
-        storage2 = FileStorage()
-        self.assertIsInstance(storage2, FileStorage)
-        self.assertIsNot(models.storage, storage2)
-
-    def test_all(self):
-        """Test the all method"""
-        storage = FileStorage()
-        objs = storage.all()
-        self.assertIsInstance(objs, dict)
-        self.assertFalse(objs == {})
-
-    def test_file_storage_doc(self):
-        """ Check the documentation """
+    def test_docstrings(self):
+        """ Checks the documentation """
         self.assertIsNotNone(FileStorage.__doc__)
         self.assertIsNotNone(FileStorage.__init__.__doc__)
         self.assertIsNotNone(FileStorage.all.__doc__)
@@ -79,35 +55,45 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsNotNone(FileStorage.reload.__doc__)
 
     def test_field_storage_exist(self):
-        """ Check if methods exists """
-        self.assertTrue(hasattr(self.file_sto, "__init__"))
-        self.assertTrue(hasattr(self.file_sto, "all"))
-        self.assertTrue(hasattr(self.file_sto, "new"))
-        self.assertTrue(hasattr(self.file_sto, "save"))
-        self.assertTrue(hasattr(self.file_sto, "reload"))
+        """ Checks if methods exists """
+        self.assertTrue(hasattr(self.storage_test, "__init__"))
+        self.assertTrue(hasattr(self.storage_test, "all"))
+        self.assertTrue(hasattr(self.storage_test, "new"))
+        self.assertTrue(hasattr(self.storage_test, "save"))
+        self.assertTrue(hasattr(self.storage_test, "reload"))
 
-    def test_models_save(self):
-        """ Check if the save function works """
-        self.my_model.name = "Halo"
-        self.my_model.save()
-        models.storage.reload()
-        models.storage.all()
-        self.assertTrue(models.storage.all(), "Holberton")
+    def test_BaseModel_saveStorage(self):
+        """ Checks if the save function works """
+        self.base1.name = "Halo"
+        self.base1.save()  # actualiza el file.json
+        models.storage.reload()  # reinicia
+        models.storage.all()  # retorna __objects
         self.assertIsInstance(models.storage.all(), dict)
-        self.assertTrue(hasattr(self.my_model, 'save'))
-        self.assertNotEqual(self.my_model.created_at, self.my_model.updated_at)
+        self.assertTrue(hasattr(self.base1, 'save'))
+        self.assertNotEqual(self.base1.created_at, self.base1.updated_at)
 
-    def test_delete(self):
-        """Tests the method delete (obj, called from destroy method)"""
-        storage = FileStorage()
-        state = State()
-        state.id = 123455
-        state.name = "Medellin"
-        key = state.__class__.__name__ + "." + str(state.id)
-        storage.new(state)
-        storage.delete(state)
-        obj = storage.all()
-        self.assertTrue(key not in obj.keys())
+    def test_User_saveStorage(self):
+        """ Checks if the save function works """
+        self.u1.first_name = "Sue"
+        self.u1.save()  # actualiza el file.json
+        models.storage.reload()  # reinicia
+        models.storage.all()  # retorna __objects
+        self.assertIsInstance(models.storage.all(), dict)
+        self.assertTrue(hasattr(self.u1, 'save'))
+        self.assertNotEqual(self.u1.created_at, self.u1.updated_at)
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_State_saveStorage(self):
+        """ Checks if the save function works """
+        self.s1.name = "Antioquia"
+        self.s1.save()  # actualiza el file.json
+        models.storage.reload()  # reinicia
+        models.storage.all()  # retorna __objects
+        self.assertIsInstance(models.storage.all(), dict)
+        self.assertTrue(hasattr(self.s1, 'save'))
+        self.assertNotEqual(self.s1.created_at, self.s1.updated_at)
+
+    def test_filestorage_pep8(self):
+        """ tests pep8 compliance """
+        pep8style = pep8.StyleGuide(quiet=True)
+        result = pep8style.check_files(['./models/engine/file_storage.py'])
+        self.assertEqual(result.total_errors, 0)
