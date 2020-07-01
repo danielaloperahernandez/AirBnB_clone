@@ -300,7 +300,8 @@ class Test_HBNBCommand(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as f:
             HBNBCommand().onecmd("create BaseModel")
             obj_id = f.getvalue().strip()
-        testCmd = "BaseModel.update({}, attr_name, 'attr_value')".format(obj_id)
+        testCmd = "BaseModel.update({}, attr_name, 'attr_value')".format(
+            obj_id)
         self.assertFalse(HBNBCommand().onecmd(testCmd))
         test_dict = storage.all()["BaseModel.{}".format(obj_id)].__dict__
         self.assertEqual("attr_value", test_dict["attr_name"])
