@@ -77,6 +77,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsNotNone(FileStorage.new.__doc__)
         self.assertIsNotNone(FileStorage.save.__doc__)
         self.assertIsNotNone(FileStorage.reload.__doc__)
+        self.assertIsNotNone(FileStorage.delete.__doc__)
 
     def test_field_storage_exist(self):
         """ Check if methods exists """
@@ -85,6 +86,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertTrue(hasattr(self.file_sto, "new"))
         self.assertTrue(hasattr(self.file_sto, "save"))
         self.assertTrue(hasattr(self.file_sto, "reload"))
+        self.assertTrue(hasattr(self.file_sto, "delete"))
 
     def test_models_save(self):
         """ Check if the save function works """
@@ -108,6 +110,30 @@ class TestFileStorage(unittest.TestCase):
         storage.delete(state)
         obj = storage.all()
         self.assertTrue(key not in obj.keys())
+
+    def test_reload(self):
+        """Test the reload method"""
+        test_1 = BaseModel()
+        test_1.save()
+        test_1.name = "Holberton"
+        test_1.number = 1
+        test_1.save()
+        self.assertTrue(os.path.exists("file.json"))
+        dic = {}
+        with open('file.json', 'r') as fjson:
+            dic = json.loads(fjson.read())
+        test_1_key = test_1.__class__.__name__ + '.' + test_1.id
+        self.assertDictEqual(test_1.to_dict(), dic[test_1_key])
+
+    def test_new(self):
+        """ Test the new method"""
+        test_1 = BaseModel()
+        test_1.name = "Holberton"
+        test_2 = BaseModel()
+        test_2.name = "Holberton"
+        id_tests_1 = test_1.id
+        id_tests_2 = test_2.id
+        self.assertFalse(id_tests_1 == id_tests_2)
 
 if __name__ == '__main__':
     unittest.main()
