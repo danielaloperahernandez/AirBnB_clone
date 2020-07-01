@@ -28,6 +28,30 @@ def pattern(arg):
     return cmd, line
 
 
+def loop_dic(line, obj_upt):
+    """
+    Loop for update with format:
+    <class name>.update(<id>, <dictionary representation>)
+    """
+    j = 4
+    while j <= len(line):
+        try:
+            atrribute = line[j]
+        except IndexError:
+            print("** attribute name missing **")
+        else:
+            try:
+                value = line[j+1]
+            except IndexError:
+                print("** value missing **")
+            else:
+                setattr(obj_upt, atrribute, value)
+                obj_upt.save()
+                if j+1 == len(line) - 1:
+                    break
+        j += 1
+
+
 class HBNBCommand(cmd.Cmd):
     """AirBnB console main class"""
     prompt = "(hbnb) "
@@ -159,6 +183,8 @@ class HBNBCommand(cmd.Cmd):
                             else:
                                 setattr(obj_upt, atrribute, value)
                                 obj_upt.save()
+                                if len(line) >= 5:
+                                    loop_dic(line, obj_upt)
             else:
                 print("** class doesn't exist **")
 
