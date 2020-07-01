@@ -1,13 +1,15 @@
 #!/usr/bin/python3
-"""This module tests base class for our project"""
+""" module for the tests cases for the BaseModels class
+"""
 import unittest
 import pep8
+import time
 from datetime import datetime
 from models.base_model import BaseModel
 
 
 class TestBaseModel(unittest.TestCase):
-    """Testing BaseModel class
+    """Unit tests for the BaseModel class for the project
     """
 
     def setUp(self):
@@ -18,16 +20,16 @@ class TestBaseModel(unittest.TestCase):
         self.bsave = BaseModel()
         self.bmain = BaseModel()
 
-    # Atributos
+    # attributes tests
     def test_uuid(self):
-        """ tests that every id is unique """
+        """ checks if every id is unique """
         self.assertIsInstance(self.b1, BaseModel)
         self.assertTrue(hasattr(self.b1, "id"))
         self.assertNotEqual(self.b1, self.b2)
         self.assertIsInstance(self.b1.id, str)
 
     def test_created_updated(self):
-        """ tests that instance for created_at and updated_at
+        """ checks if the instance for created_at and updated_at
         are datetime objects """
         self.assertIsInstance(self.b2, BaseModel)
         self.assertTrue(hasattr(self.b2, "created_at"))
@@ -36,9 +38,9 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(self.b2.updated_at, datetime)
         self.assertNotEqual(self.b2.created_at, self.b2.updated_at)
 
-    # Métodos
+    # methods tests
     def test_todict(self):
-        """ tests that values in dictionary are strings  """
+        """ checks if the values in dictionary are strings  """
         self.assertTrue(type(self.basedict.to_dict()) is dict)
         dictionary = self.basedict.to_dict()
         self.assertIsInstance(dictionary['created_at'], str)
@@ -47,18 +49,19 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(dictionary['id'], str)
 
     def test_save(self):
-        """ tests that updated_at is updated  """
+        """ checks if updated_at is updated  """
         olddate = self.bsave.updated_at
+        time.sleep(2)
         self.bsave.save()  # update
         self.assertNotEqual(olddate, self.bsave.updated_at)
         self.assertIsInstance(self.bsave.updated_at, datetime)
 
     def test_str(self):
-        """ tests that __str__ returns a string  """
+        """ checks if __str__ returns a string  """
         self.assertIsInstance(self.b1.__str__(), str)
 
     def test_main(self):
-        """ tests that new attributes are added to the dictionarry  """
+        """ checks if new attributes are added to the dictionarry  """
         dictionary1 = self.bmain.to_dict()
         self.bmain.name = "Holberton"
         self.bmain.my_number = 89
@@ -66,13 +69,13 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(len(dictionary1), len(dictionary2))
 
     def test_kwargs(self):
-        """ tests that an instance is created from a dictionary """
+        """ checks if an instance is created from a dictionary """
         dictionary = self.b1.to_dict()
         b1_copy_test = BaseModel(**dictionary)
         self.assertIsInstance(b1_copy_test, BaseModel)
 
     def test_dict_not_same_object(self):
-        """ tests that an instance and its copy are different objects """
+        """ checks if an instance and its copy are different objects """
         dictionary = self.b1.to_dict()
         b1_copy_test = BaseModel(**dictionary)
         self.assertIsNot(self.b1, b1_copy_test)
@@ -81,19 +84,19 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(b1_copy_test.updated_at, self.b1.updated_at)
 
     def test_empty_dict(self):
-        """ tests that a new instance is created from an empty dictionary """
+        """ checks if a new instance is created from an empty dictionary """
         my_instance = BaseModel({})
         self.assertIsInstance(my_instance, BaseModel)
 
     def test_docstring_BaseModel(self):
-        """ tests that docstrings are present """
+        """ checks if docstrings are present """
         self.assertIsNotNone(BaseModel.__init__.__doc__)
         self.assertIsNotNone(BaseModel.to_dict.__doc__)
         self.assertIsNotNone(BaseModel.save.__doc__)
         self.assertIsNotNone(BaseModel.__str__.__doc__)
 
     def test_basemodel_pep8(self):
-        """ tests pep8 compliance """
+        """ checks for pep8 """
         pep8style = pep8.StyleGuide(quiet=True)
         result = pep8style.check_files(['./models/base_model.py'])
         self.assertEqual(result.total_errors, 0)
